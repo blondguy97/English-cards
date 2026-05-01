@@ -17,7 +17,12 @@ const firstCard = document.querySelector(".firstCard");
 const lastCard = document.querySelector(".lastCard");
 const progressFill = document.getElementById("progressFill");
 
-interactBtn.disabled = true;
+function disabledBothBtns() {
+  interactBtn.disabled = true;
+  nextBtn.disabled = true;
+}
+
+disabledBothBtns();
 
 interactInput.addEventListener("input", function (e) {
   if (!e.target.value.trim()) {
@@ -36,8 +41,6 @@ function updateProcess() {
 
 function renderCard() {
   const card = cards[currentIndex];
-  nextBtn.disabled = true;
-
   cardTitle.textContent = card.english;
   cardImage.src = card.imageUrl;
   updateProcess();
@@ -75,7 +78,6 @@ function nextCard() {
   nextBtn.disabled = true;
   textForUser.textContent = "";
   interactInput.disabled = false;
-
   updateProcess();
   renderCard();
 }
@@ -92,9 +94,11 @@ nextBtn.addEventListener("click", function (e) {
   });
 
   if (cards.length === currentIndex + 1) {
-    nextBtn.disabled = true;
-    interactBtn.disabled = true;
+    disabledBothBtns();
     textForUser.textContent = `Конец игры! ${correctAnswers} угаданных карточек из ${cards.length}!`;
+
+    cardImage.src = "images/game-over.gif";
+    cardTitle.textContent = '';
   } else {
     nextCard();
   }
